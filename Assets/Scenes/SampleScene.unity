@@ -373,7 +373,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1933906437778019863}
   smoothSpeed: 1
-  offset: {x: 6, y: 7, z: -2}
+  minX: -1
+  maxX: 3
+  offset: {x: 4.5, y: 7, z: -2}
 --- !u!1 &1011667261
 GameObject:
   m_ObjectHideFlags: 0
@@ -1392,6 +1394,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -33.419235
+      objectReference: {fileID: 0}
+    - target: {fileID: 6326533009576352338, guid: 6a956a3fd81e0cd4da26bba684ae6796,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.25205222
+      objectReference: {fileID: 0}
+    - target: {fileID: 6326533009576352338, guid: 6a956a3fd81e0cd4da26bba684ae6796,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.07999998
+      objectReference: {fileID: 0}
+    - target: {fileID: 6326533009576352338, guid: 6a956a3fd81e0cd4da26bba684ae6796,
+        type: 3}
+      propertyPath: m_Center.x
+      value: -0.11602614
+      objectReference: {fileID: 0}
+    - target: {fileID: 6326533009576352338, guid: 6a956a3fd81e0cd4da26bba684ae6796,
+        type: 3}
+      propertyPath: m_Center.z
+      value: -6.0321994e-17
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a956a3fd81e0cd4da26bba684ae6796, type: 3}
