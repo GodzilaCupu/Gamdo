@@ -483,7 +483,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 1d74b1f87f97a5b48aa55dd702e012bf,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.343
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1d74b1f87f97a5b48aa55dd702e012bf,
         type: 3}
@@ -539,6 +539,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: kardus
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1d74b1f87f97a5b48aa55dd702e012bf,
+        type: 3}
+      propertyPath: m_TagString
+      value: Box
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d74b1f87f97a5b48aa55dd702e012bf, type: 3}
@@ -818,6 +823,36 @@ Transform:
   - {fileID: 1533080215}
   m_Father: {fileID: 0}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1745093561
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1745093562}
+  m_Layer: 0
+  m_Name: GrabPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1745093562
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745093561}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.079, z: 0.522}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1933906437778019863}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1990801164023781
 GameObject:
@@ -1109,11 +1144,17 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
-  groundDinstance: 0.2
+  groundDinstance: 0.1
   jumpHeight: 1.8
   gravity: -19.62
   groundCheck: {fileID: 326352601}
   isGrounded: 0
+  throwForce: 10
+  distance: 0
+  box: {fileID: 1257137401}
+  grabPos: {fileID: 1745093562}
+  isAbletoGrab: 0
+  isCarried: 0
 --- !u!143 &1269255350472264880
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1125,8 +1166,8 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.38
+  m_Height: 1.8
+  m_Radius: 0.48
   m_SlopeLimit: 33.36
   m_StepOffset: 0.1
   m_SkinWidth: 0.08
@@ -1270,6 +1311,7 @@ Transform:
   - {fileID: 2632638842002963398}
   - {fileID: 1705182841963910846}
   - {fileID: 326352601}
+  - {fileID: 1745093562}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
