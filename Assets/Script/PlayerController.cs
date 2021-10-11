@@ -93,20 +93,34 @@ public class PlayerController : MonoBehaviour
         else
             isAbleToGrab = false;
 
-
-        if (isAbleToGrab && Input.GetKeyDown(KeyCode.F))
+        if (isGrounded && !isRunning)
         {
-            box.GetComponent<Rigidbody>().isKinematic = true;
-            box.transform.position = grabPos.transform.position;
-            box.transform.parent = grabPos.transform;
-            isCarried = true;
+            if (isAbleToGrab && Input.GetKeyDown(KeyCode.F))
+            {
+                box.GetComponent<Rigidbody>().isKinematic = true;
+                box.transform.position = grabPos.transform.position;
+                box.transform.parent = grabPos.transform;
+                isCarried = true;
+                playerAnim.SetBool("Box", true);
+                playerAnim.ResetTrigger("JumpThrow");
+                playerAnim.ResetTrigger("RunThrow");
+            }
         }
-
         if (isCarried && Input.GetKey(KeyCode.LeftControl))
         {
             box.GetComponent<Rigidbody>().isKinematic = false;
             box.transform.parent = null;
             isCarried = false;
+            playerAnim.SetBool("Box", false);
+            playerAnim.SetBool("Idle", true);
+
+            if (isRunning)
+                playerAnim.SetTrigger("RunThrow");
+            else if (!isGrounded)
+                playerAnim.SetTrigger("JumpThrow");
+            
+            if (!isGrounded && isRunning)
+                playerAnim.SetTrigger("JumpThrow");
         }
         else if (isCarried && Input.GetKey(KeyCode.LeftShift))
         {
@@ -114,17 +128,28 @@ public class PlayerController : MonoBehaviour
             box.transform.parent = null;
             isCarried = false;
             box.GetComponent<Rigidbody>().AddForce(grabPos.transform.forward * throwForce);
+            playerAnim.SetBool("Box", false);
+            playerAnim.SetBool("Idle", true);
+
+            if (isRunning)
+                playerAnim.SetTrigger("RunThrow");
+            else if (!isGrounded)
+                playerAnim.SetTrigger("JumpThrow");
+            
+            if (!isGrounded && isRunning)
+                playerAnim.SetTrigger("JumpThrow");
+
         }
     }
 
 
     private void CheckAnim()
     {
+
         if (isRunning)
         {
             playerAnim.SetBool("Run", true);
         }
-
         else
         {
             playerAnim.SetBool("Run", false);
@@ -143,15 +168,50 @@ public class PlayerController : MonoBehaviour
 
         if (isRunning && !isGrounded)
         {
-            playerAnim.SetBool("Jump", true);
             playerAnim.SetBool("Idle", false);
+            playerAnim.SetBool("Jump", true);
             playerAnim.SetBool("Run", true);
         }
         else if (isRunning && isGrounded)
         {
-            playerAnim.SetBool("Jump", false);
             playerAnim.SetBool("Idle", false);
+            playerAnim.SetBool("Jump", false);
             playerAnim.SetBool("Run", true);
+        }
+
+        if(isRunning && isCarried)
+        {
+            playerAnim.SetBool("Box", true);
+            playerAnim.SetBool("Run", true);
+        }
+        else if (!isRunning && isCarried)
+        {
+            playerAnim.SetBool("Box", true);
+            playerAnim.SetBool("Run", false);
+        }
+
+        if (isGrounded && isCarried)
+        {
+            playerAnim.SetBool("Box", true);
+            playerAnim.SetBool("Jump", false);
+        }
+        else if (!isGrounded && isCarried)
+        {
+            playerAnim.SetBool("Box", true);
+            playerAnim.SetBool("Jump", true);
+        }
+
+        if (isGrounded && isCarried && isRunning)
+        {
+            playerAnim.SetBool("Jump", false);
+            playerAnim.SetBool("Box", true);
+            playerAnim.SetBool("Run", true);
+        } 
+        else if (!isGrounded && isCarried && isRunning)
+        {
+            playerAnim.SetBool("Box", true);
+            playerAnim.SetBool("Run", true);
+            playerAnim.SetBool("Jump", true);
         }
 
 
