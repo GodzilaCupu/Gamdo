@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,25 +25,20 @@ public class PlayerController : MonoBehaviour
     Vector3 velocityJump;
 
     [Header("Throw")]
-    [SerializeField] private GameObject grabPos;
-    [SerializeField] private float throwForce;
-    private bool isAbleToGrab = false;
-    private bool isCarried = false;
-
-    private float distance;
-    private GameObject box;
+    KardusController box;
+    bool isCarried;
 
     private void Start()
     {
+        box = GameObject.Find("kardus").GetComponent<KardusController>();
+        isCarried = box._IsCarried;
         playerAnim.GetComponent<Animator>();
-        box = GameObject.FindGameObjectWithTag("Box");
     }
 
     private void Update()
     {
         Jumping();
         Moving();
-        Throw();
         CheckAnim();
     }
 
@@ -84,65 +77,6 @@ public class PlayerController : MonoBehaviour
         controller.Move(velocityJump * Time.deltaTime);
     }
 
-    private void Throw()
-    {
-        distance = Vector3.Distance(box.gameObject.transform.position, grabPos.transform.position);
-
-        if (distance <= 1.4f)
-            isAbleToGrab = true;
-        else
-            isAbleToGrab = false;
-
-        if (isGrounded && !isRunning)
-        {
-            if (isAbleToGrab && Input.GetKeyDown(KeyCode.F))
-            {
-                box.GetComponent<Rigidbody>().isKinematic = true;
-                box.transform.position = grabPos.transform.position;
-                box.transform.parent = grabPos.transform;
-                isCarried = true;
-                playerAnim.SetBool("Box", true);
-                playerAnim.ResetTrigger("JumpThrow");
-                playerAnim.ResetTrigger("RunThrow");
-            }
-        }
-        if (isCarried && Input.GetKey(KeyCode.LeftControl))
-        {
-            box.GetComponent<Rigidbody>().isKinematic = false;
-            box.transform.parent = null;
-            isCarried = false;
-            playerAnim.SetBool("Box", false);
-            playerAnim.SetBool("Idle", true);
-
-            if (isRunning)
-                playerAnim.SetTrigger("RunThrow");
-            else if (!isGrounded)
-                playerAnim.SetTrigger("JumpThrow");
-            
-            if (!isGrounded && isRunning)
-                playerAnim.SetTrigger("JumpThrow");
-        }
-        else if (isCarried && Input.GetKey(KeyCode.LeftShift))
-        {
-            box.GetComponent<Rigidbody>().isKinematic = false;
-            box.transform.parent = null;
-            isCarried = false;
-            box.GetComponent<Rigidbody>().AddForce(grabPos.transform.forward * throwForce);
-            playerAnim.SetBool("Box", false);
-            playerAnim.SetBool("Idle", true);
-
-            if (isRunning)
-                playerAnim.SetTrigger("RunThrow");
-            else if (!isGrounded)
-                playerAnim.SetTrigger("JumpThrow");
-            
-            if (!isGrounded && isRunning)
-                playerAnim.SetTrigger("JumpThrow");
-
-        }
-    }
-
-
     private void CheckAnim()
     {
 
@@ -179,7 +113,7 @@ public class PlayerController : MonoBehaviour
             playerAnim.SetBool("Run", true);
         }
 
-        if(isRunning && isCarried)
+        if (isRunning && isCarried)
         {
             playerAnim.SetBool("Box", true);
             playerAnim.SetBool("Run", true);
@@ -206,15 +140,18 @@ public class PlayerController : MonoBehaviour
             playerAnim.SetBool("Jump", false);
             playerAnim.SetBool("Box", true);
             playerAnim.SetBool("Run", true);
-        } 
+        }
         else if (!isGrounded && isCarried && isRunning)
         {
             playerAnim.SetBool("Box", true);
             playerAnim.SetBool("Run", true);
             playerAnim.SetBool("Jump", true);
         }
-
-
-
     }
+
+    #region Get-Set Method
+    public bool _IsRunning { get { return isRunning; } }
+    public bool _IsGrounded { get { return isGrounded; } }
+    public Animator PlayerAnim { get { return playerAnim; } set { playerAnim = value; } }
+    #endregion
 }
