@@ -68,6 +68,7 @@ public class GameStoryController : MonoBehaviour
         if (Input.GetKey(KeyCode.Escape))
         {
             panelSetting.SetActive(true);
+            Time.timeScale = 0;
             isOpened = true;
         }
     }
@@ -151,6 +152,7 @@ public class GameStoryController : MonoBehaviour
     private void ClosePanelSetting()
     {
         panelSetting.SetActive(false);
+        Time.timeScale = 1;
         isOpened = false;
     }
 
@@ -228,7 +230,7 @@ public class GameStoryController : MonoBehaviour
         if (countDown < 0)
         {
             countDown = 0;
-            if (progresBox == maxBox && progresBox >= maxBox -3)
+            if (progresBox == maxBox || progresBox >8)
             {
                 DataBase.SetCurrentProgres("LevelStars1", 3);
                 panelCongrats.SetActive(true);
@@ -236,7 +238,7 @@ public class GameStoryController : MonoBehaviour
                 isOpened = true;
                 Debug.Log("3");
             }
-            else if (progresBox < maxBox - 3 && progresBox > maxBox - 5 )
+            else if (progresBox <=8 || progresBox >= 5 )
             {
                 DataBase.SetCurrentProgres("LevelStars1", 2);
                 panelCongrats.SetActive(true);
@@ -244,7 +246,7 @@ public class GameStoryController : MonoBehaviour
                 isOpened = true;
                 Debug.Log("2");
             }
-            else if (progresBox < maxBox - 5)
+            else if (progresBox < 5)
             {
                 DataBase.SetCurrentProgres("LevelStars1", 1);
                 panelCongrats.SetActive(true);
