@@ -222,6 +222,10 @@ MonoBehaviour:
   - {fileID: 642781200}
   countDown: 90
   maxBox: 8
+  panelCongrats: {fileID: 0}
+  btnCongrats: []
+  imgStar: {fileID: 0}
+  _imgStars: []
   txtSetting:
   - {fileID: 1253534029}
   - {fileID: 1013219671}
@@ -3126,7 +3130,7 @@ PrefabInstance:
     - target: {fileID: 9106210948752379682, guid: 039a073edece78346adac36f7f279e65,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 039a073edece78346adac36f7f279e65, type: 3}

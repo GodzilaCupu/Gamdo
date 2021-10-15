@@ -18,6 +18,12 @@ public class GameStoryController : MonoBehaviour
     [SerializeField] private int maxBox;
     private int progresBox;
 
+    [Header("Congrats")]
+    [SerializeField] private GameObject panelCongrats;
+    [SerializeField] private GameObject[] btnCongrats;
+    [SerializeField] private Image imgStar;
+    [SerializeField] private Sprite[] _imgStars;
+
     [Header("Setting")]
     [SerializeField] private TextMeshProUGUI[] txtSetting;
     [SerializeField] private GameObject[] btnSetting;
@@ -171,7 +177,13 @@ public class GameStoryController : MonoBehaviour
         txtUI[1].SetText(progresBox + "/" + maxBox);
 
         if (timer <= 0)
-            timer = 0;
+        {
+            if(progresBox == maxBox)
+            {
+                DataBase.SetCurrentProgres("Star", 3);
+                
+            }
+        }
     }
 
     private void ResetProgres()
