@@ -102,7 +102,7 @@ public class GameStoryController : MonoBehaviour
 
                 //Save
                 case 2:
-                    btnSetting[2].GetComponent<Button>().onClick.AddListener(SaveProgress);
+                    btnSetting[2].GetComponent<Button>().onClick.AddListener(SaveProgress) ;
                     break;
 
                 //Main Menu
@@ -158,8 +158,6 @@ public class GameStoryController : MonoBehaviour
 
     private void SaveProgress()
     {
-        DataBase.SetAudio("BGM", DataBase.GetAudio("BGM"));
-
         switch (SceneManager.GetActiveScene().name)
         {
             case "Level01":
@@ -173,12 +171,8 @@ public class GameStoryController : MonoBehaviour
             case "Level03":
                 DataBase.SetCurrentProgres("Level", 3);
                 break;
-
-            default:
-                Debug.Log("Check Ur Key");
-                break;
         }
-        StartCoroutine(SavedDelay(2));
+        DataBase.SetAudio("BGM", DataBase.GetAudio("BGM"));
     }
 
     private void BackToMainMenu()
@@ -204,7 +198,7 @@ public class GameStoryController : MonoBehaviour
                 break;
 
             case "Level02":
-                SceneManager.LoadScene("Level02");
+                SceneManager.LoadScene("Level03");
                 break;
 
             case "Level03":
@@ -301,7 +295,7 @@ public class GameStoryController : MonoBehaviour
         panelSaved.SetActive(true);
         yield return new WaitForSeconds(value);
         panelSaved.SetActive(false);
-
+        Debug.LogWarning("SAVED");
     }
     IEnumerator CountdownDelay(int value)
     {

@@ -1782,6 +1782,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: kardus
       objectReference: {fileID: 0}
+    - target: {fileID: 1942463639289751143, guid: 5f0d66d10cf65d446a0d3ad5dff1e6c5,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2125625486062584206, guid: 5f0d66d10cf65d446a0d3ad5dff1e6c5,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -38,7 +38,7 @@ public class Tutorial : MonoBehaviour
         _text[1] = "Untuk mengambil Box, kamu dapat menggunakan tombol 'G', untuk melempar menggunakan tombol 'Left Shift', dan menjatuhkan barang 'Left Control'";
         _text[2] = "Kamu harus mengumpulkan pada tempat yang telah di tentukan, tempat tersebut masing masing levelnya berbeda, oleh karena itu perhatikan dengan baik";
         _text[3] = "kamu dapat menekan tombol 'ESC' untuk berhenti sementara ";
-        _text[4] = "Semalat Bermain :)";
+        _text[4] = "Selamat Bermain <3 ";
 
     
 
