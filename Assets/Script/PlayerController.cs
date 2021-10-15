@@ -25,12 +25,14 @@ public class PlayerController : MonoBehaviour
     Vector3 velocityJump;
 
     [Header("Throw")]
+    GameStoryController gameController;
     KardusController box;
     bool isCarried;
 
     private void Start()
     {
         box = GameObject.Find("kardus").GetComponent<KardusController>();
+        gameController = GameObject.Find("GameController").GetComponent<GameStoryController>();
         isCarried = box._IsCarried;
         playerAnim.GetComponent<Animator>();
     }
@@ -45,19 +47,22 @@ public class PlayerController : MonoBehaviour
     private void Moving()
     {
         isRunning = false;
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
-
-        Vector3 direction = new Vector3(-vertical, 0f, horizontal).normalized;
-
-        if (direction.magnitude >= 0.1f)
+        if (gameController.isOpened == false)
         {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref smothingVelocityTurn, smothingTurn);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            float horizontal = Input.GetAxisRaw("Horizontal");
+            float vertical = Input.GetAxisRaw("Vertical");
 
-            controller.Move(direction * walkSpeed * Time.deltaTime);
-            isRunning = true;
+            Vector3 direction = new Vector3(-vertical, 0f, horizontal).normalized;
+
+            if (direction.magnitude >= 0.1f)
+            {
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref smothingVelocityTurn, smothingTurn);
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+                controller.Move(direction * walkSpeed * Time.deltaTime);
+                isRunning = true;
+            }
         }
     }
 
