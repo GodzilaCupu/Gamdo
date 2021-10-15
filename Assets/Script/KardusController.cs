@@ -32,7 +32,6 @@ public class KardusController : MonoBehaviour
     private void FixedUpdate()
     {
         CheckBool();
-        Debug.Log("Distance" + distance);
     }
 
     private void CheckBool()

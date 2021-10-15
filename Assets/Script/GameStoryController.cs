@@ -12,7 +12,6 @@ public class GameStoryController : MonoBehaviour
 
     [Header("Timer")]
     [SerializeField] private float countDown;
-    private int timer;
 
     [Header("Box")]
     [SerializeField] private int maxBox;
@@ -34,25 +33,43 @@ public class GameStoryController : MonoBehaviour
     private string[] _txtSetting;
     public bool isOpened,isMute;
 
+    Tutorial tutor;
+
     // Start is called before the first frame update
     void Start()
     {
-        SetSetting();
         progresBox = DataBase.GetCurrentProgres("Box");
+
+        SetCongratsBTN();
+        SetSetting();
         ResetProgres();
         SetSoundValue();
+
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level01"))
+            tutor = this.gameObject.GetComponent<Tutorial>();
     }
 
     // Update is called once per frame
     void Update()
     {
         CheckProggres();
+
+        if (countDown > 0 && SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level01") && tutor.GetCountTutor == 5)
+        {
+            countDown -= Time.deltaTime;
+            Timmer(countDown);
+        }
+        else if (countDown > 0 && SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Level01"))
+        {
+            countDown -= Time.deltaTime; 
+            Timmer(countDown);
+        }
+
         if (Input.GetKey(KeyCode.Escape))
         {
             panelSetting.SetActive(true);
             isOpened = true;
         }
-
     }
 
     //Udah Bener Semua
@@ -170,30 +187,82 @@ public class GameStoryController : MonoBehaviour
 
     #endregion
 
+    private void SetCongratsBTN()
+    {
+        btnCongrats[0].GetComponent<Button>().onClick.AddListener(BackToMainMenu);
+        btnCongrats[1].GetComponent<Button>().onClick.AddListener(NextLevel);
+    }
+
+    private void NextLevel()
+    {
+        switch (SceneManager.GetActiveScene().name)
+        {
+            case "Level01":
+                SceneManager.LoadScene("Level02");
+                break;
+
+            case "Level02":
+                SceneManager.LoadScene("Level02");
+                break;
+
+            case "Level03":
+                Debug.Log("Check Ur Key");
+                break;
+
+            default:
+                Debug.Log("Check Ur Key");
+                break;
+        }
+    }
+
+
     private void CheckProggres()
     {
-        StartCoroutine(PlayCountdown(0));
+        //StartCoroutine(PlayCountdown(0));
         progresBox = DataBase.GetCurrentProgres("Box");
         txtUI[1].SetText(progresBox + "/" + maxBox);
+    }
 
-        if (timer <= 0)
+    public void Timmer(float dispaly)
+    {
+        if (countDown < 0)
         {
-            if(progresBox == maxBox)
+            countDown = 0;
+            if (progresBox == maxBox && progresBox >= maxBox -3)
             {
-                DataBase.SetCurrentProgres("Star", 3);
-                
+                DataBase.SetCurrentProgres("LevelStars1", 3);
+                panelCongrats.SetActive(true);
+                imgStar.sprite = _imgStars[0];
+                isOpened = true;
+                Debug.Log("3");
+            }
+            else if (progresBox < maxBox - 3 && progresBox > maxBox - 5 )
+            {
+                DataBase.SetCurrentProgres("LevelStars1", 2);
+                panelCongrats.SetActive(true);
+                imgStar.sprite = _imgStars[1];
+                isOpened = true;
+                Debug.Log("2");
+            }
+            else if (progresBox < maxBox - 5)
+            {
+                DataBase.SetCurrentProgres("LevelStars1", 1);
+                panelCongrats.SetActive(true);
+                imgStar.sprite = _imgStars[2];
+                isOpened = true;
+                Debug.Log("1");
             }
         }
+
+        float minute = Mathf.FloorToInt(dispaly / 60);
+        float second = Mathf.FloorToInt(dispaly % 60);
+
+        txtUI[0].SetText(string.Format("{0:00}:{1:00}", minute, second));
     }
 
     private void ResetProgres()
     {
-        isOpened = false;
-        // Set Timer
-        if (timer <= 9)
-            txtUI[0].SetText("00:0" + timer);
-        else
-            txtUI[0].SetText("00:" + timer);
+        txtUI[0].SetText("00:00");
 
         DataBase.SetCurrentProgres("Box", 0);
 
@@ -204,15 +273,18 @@ public class GameStoryController : MonoBehaviour
         {
             case "Level01":
                 DataBase.SetCurrentProgres("Level", 1);
-
                 break;
 
             case "Level02":
                 DataBase.SetCurrentProgres("Level", 2);
+                StartCoroutine(CountdownDelay(2));
+                isOpened = false;
                 break;
 
             case "Level03":
                 DataBase.SetCurrentProgres("Level", 3);
+                StartCoroutine(CountdownDelay(2));
+                isOpened = false;
                 break;
 
             default:
@@ -229,15 +301,17 @@ public class GameStoryController : MonoBehaviour
         panelSaved.SetActive(false);
 
     }
-
-    IEnumerator PlayCountdown(int value)
+    IEnumerator CountdownDelay(int value)
     {
+        isOpened = true;
         yield return new WaitForSeconds(value);
-        timer = Mathf.FloorToInt(countDown -= Time.deltaTime);
-        if(timer<=9)
-            txtUI[0].SetText("00:0" + timer);
-        else
-            txtUI[0].SetText("00:" + timer);
+        isOpened = false;
+        Timmer(countDown);
+
     }
 
+    public float GetCountDown
+    {
+        get { return countDown; }
+    }
 }
