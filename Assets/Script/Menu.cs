@@ -23,6 +23,12 @@ public class Menu : MonoBehaviour
         SetMenuBTN();
     }
 
+    private void Update()
+    {
+        if (DataBase.GetCurrentProgres("Level") == 3)
+            LevelNotFound();
+    }
+
     private void RestartGameplay()
     {
         if(DataBase.GetCurrentProgres("Level") < 1)
@@ -112,6 +118,12 @@ public class Menu : MonoBehaviour
 
     }
 
+    private void LevelNotFound()
+    {
+        ContinueLevel();
+        panelWarning.SetActive(true);
+    }
+
     private void BackToMainMenu()
     {
         btnMenuUtama[0].gameObject.SetActive(true);
@@ -125,6 +137,7 @@ public class Menu : MonoBehaviour
     {
         SceneManager.LoadScene(value);
     }
+
 
     IEnumerator DelayWarning(int value)
     {

@@ -51,17 +51,20 @@ public class KardusController : MonoBehaviour
             else
                 isAbleToGrab = false;
 
-            if (isGrounded && !isRunning)
+            if(grabPos.transform.childCount == 0)
             {
-                if (isAbleToGrab && Input.GetKeyDown(KeyCode.G))
+                if (isGrounded && !isRunning)
                 {
-                    this.GetComponent<Rigidbody>().isKinematic = true;
-                    this.transform.position = grabPos.transform.position;
-                    this.transform.parent = grabPos.transform;
-                    isCarried = true;
-                    player.PlayerAnim.SetBool("Box", true);
-                    player.PlayerAnim.ResetTrigger("JumpThrow");
-                    player.PlayerAnim.ResetTrigger("RunThrow");
+                    if (isAbleToGrab && Input.GetKeyDown(KeyCode.G))
+                    {
+                        this.GetComponent<Rigidbody>().isKinematic = true;
+                        this.transform.position = grabPos.transform.position;
+                        this.transform.parent = grabPos.transform;
+                        isCarried = true;
+                        player.PlayerAnim.SetBool("Box", true);
+                        player.PlayerAnim.ResetTrigger("JumpThrow");
+                        player.PlayerAnim.ResetTrigger("RunThrow");
+                    }
                 }
             }
         }

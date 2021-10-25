@@ -678,10 +678,30 @@ PrefabInstance:
       propertyPath: walkSpeed
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5276524584284969153, guid: 00cc979b1682c804f84fa813d159c480,
+        type: 3}
+      propertyPath: groundDinstance
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 5276524584284969153, guid: 00cc979b1682c804f84fa813d159c480,
+        type: 3}
+      propertyPath: jumpHeight
+      value: 1.8
+      objectReference: {fileID: 0}
     - target: {fileID: 5276524584284969155, guid: 00cc979b1682c804f84fa813d159c480,
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5276524584284969182, guid: 00cc979b1682c804f84fa813d159c480,
+        type: 3}
+      propertyPath: m_SlopeLimit
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5276524584284969182, guid: 00cc979b1682c804f84fa813d159c480,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00cc979b1682c804f84fa813d159c480, type: 3}
@@ -3534,8 +3554,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 18.587666, y: 21.345978, z: 0.36647734}
-  m_Center: {x: -6.77178, y: -9.672989, z: -0.06654549}
+  m_Size: {x: 17.784393, y: 21.34598, z: 0.26739156}
+  m_Center: {x: -7.1734166, y: -9.67299, z: -0.11608843}
 --- !u!4 &4303022322632353931
 Transform:
   m_ObjectHideFlags: 0
@@ -5486,7 +5506,7 @@ GameObject:
   - component: {fileID: 9133687203803126899}
   - component: {fileID: 9133687203803126898}
   - component: {fileID: 9133687203803126897}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube.008
   m_TagString: BoxTrigger
   m_Icon: {fileID: 0}
@@ -5543,8 +5563,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4.6510396, y: 17.502716, z: 2.5027282}
-  m_Center: {x: 0, y: 8.570233e-16, z: -0.596358}
+  m_Size: {x: 4.3417726, y: 17.502716, z: 1.7851774}
+  m_Center: {x: 0.15463378, y: 5.1950936e-15, z: -0.9551334}
 --- !u!1 &9153409429194704803
 GameObject:
   m_ObjectHideFlags: 0

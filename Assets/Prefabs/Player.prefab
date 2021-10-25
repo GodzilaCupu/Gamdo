@@ -482,7 +482,7 @@ GameObject:
   - component: {fileID: 5276524584284969182}
   - component: {fileID: 5276524584284969153}
   m_Layer: 0
-  m_Name: CharAnim
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -538,9 +538,9 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 1.8
-  m_Radius: 0.48
-  m_SlopeLimit: 33.36
-  m_StepOffset: 0.1
+  m_Radius: 0.35
+  m_SlopeLimit: 50
+  m_StepOffset: 0.05
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
@@ -558,19 +558,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 5276524584284969182}
   playerAnim: {fileID: 5276524584284969152}
-  walkSpeed: 3
+  walkSpeed: 5
   smothingTurn: 0.1
   isRunning: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 256
-  groundDinstance: 0.1
-  jumpHeight: 1.8
+  groundDinstance: 0.5
+  jumpHeight: 1.6
   gravity: -19.62
   groundCheck: {fileID: 6387430433288727223}
   isGrounded: 0
-  grabPos: {fileID: 6387430434716129239}
-  throwForce: 250
 --- !u!1 &5560109134057931258
 GameObject:
   m_ObjectHideFlags: 0

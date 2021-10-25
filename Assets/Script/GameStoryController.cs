@@ -102,7 +102,7 @@ public class GameStoryController : MonoBehaviour
 
                 //Save
                 case 2:
-                    btnSetting[2].GetComponent<Button>().onClick.AddListener(SaveProgress) ;
+                    btnSetting[2].GetComponent<Button>().onClick.AddListener(SaveProgress);
                     break;
 
                 //Main Menu
@@ -202,7 +202,8 @@ public class GameStoryController : MonoBehaviour
                 break;
 
             case "Level03":
-                Debug.Log("Check Ur Key");
+                SceneManager.LoadScene("Menu");
+                DataBase.SetCurrentProgres("Level",3);
                 break;
 
             default:
@@ -217,6 +218,7 @@ public class GameStoryController : MonoBehaviour
         //StartCoroutine(PlayCountdown(0));
         progresBox = DataBase.GetCurrentProgres("Box");
         txtUI[1].SetText(progresBox + "/" + maxBox);
+        BoxFull(maxBox);
     }
 
     public void Timmer(float dispaly)
@@ -255,6 +257,19 @@ public class GameStoryController : MonoBehaviour
 
         txtUI[0].SetText(string.Format("{0:00}:{1:00}", minute, second));
     }
+
+    private void BoxFull(int value)
+    {
+        if(progresBox == value)
+        {
+            DataBase.SetCurrentProgres("LevelStars1", 3);
+            panelCongrats.SetActive(true);
+            imgStar.sprite = _imgStars[0];
+            isOpened = true;
+            Debug.Log("3");
+        }
+    }
+
 
     private void ResetProgres()
     {
