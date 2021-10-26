@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class KardusController : MonoBehaviour
 {
     private PlayerController player;
     private GameObject grabPos;
 
+    AudioSource boxSFX;
     GameStoryController gameController;
   
     [SerializeField] private float distance, throwForce;
@@ -114,8 +116,10 @@ public class KardusController : MonoBehaviour
     {
         if(coll.gameObject.tag=="BoxTrigger")
         {
+            boxSFX = GameObject.Find("BoxContainer").GetComponent<AudioSource>();
+            boxSFX.Play();
             DataBase.SetCurrentProgres("Box", DataBase.GetCurrentProgres("Box")+1);
-            this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            this.gameObject.GetComponent<KardusController>().enabled = false;
         }
     }
 

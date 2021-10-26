@@ -34,15 +34,15 @@ public class Tutorial : MonoBehaviour
         countTutor = 0;
         _text = new string[5];
 
-        _text[0] = "Selamat Datang !! \n kamu dapat menggerakan pemain menggunakan tombol 'W' untuk bergerak maju, Tombol W bergerak kearah Depan, 'S' untuk bergerak ke arah belakang, 'D' untuk begerak kearah kanan, dan 'A' untuk bergerak kearah samping kiri ";
+        _text[0] = "Selamat Datang !! \n kamu dapat menggerakan pemain menggunakan tombol 'W' untuk bergerak maju, Tombol W bergerak kearah Depan, 'S' untuk bergerak ke arah belakang, 'D' untuk begerak kearah kanan, dan 'A' untuk bergerak kearah samping kiri, kamu juga dapat melompat dengan menekan tombol 'Space' ";
         _text[1] = "Untuk mengambil Box, kamu dapat menggunakan tombol 'G', untuk melempar menggunakan tombol 'Left Shift', dan menjatuhkan barang 'Left Control'";
-        _text[2] = "Kamu harus mengumpulkan pada tempat yang telah di tentukan, tempat tersebut masing masing levelnya berbeda, oleh karena itu perhatikan dengan baik";
+        _text[2] = "Kamu harus mengumpulkan pada tempat yang telah di tentukan, tempat tersebut masing masing levelnya berbeda,\noleh karena itu perhatikan petunjuk yang telah tersedia dengan baik, untuk melihat detailnya silahkan tekan tombol '!' pada sisi layar ";
         _text[3] = "kamu dapat menekan tombol 'ESC' untuk berhenti sementara ";
         _text[4] = "Selamat Bermain <3 ";
 
-    
-
         ImageBtnnTutorial = btnTutorial[1].gameObject.GetComponent<Image>();
+
+        text.SetText(_text[0]);
 
         btnTutorial[0].onClick.AddListener(PrevTutor);
         btnTutorial[1].onClick.AddListener(NextTutor);

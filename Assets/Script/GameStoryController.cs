@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
@@ -29,6 +30,9 @@ public class GameStoryController : MonoBehaviour
     [SerializeField] private GameObject panelSetting;
     [SerializeField] private GameObject panelSaved;
     [SerializeField] private AudioSource sound;
+
+    [Header("Task")]
+    [SerializeField] private GameObject panelTask;
 
     private string[] _txtSetting;
     public bool isOpened,isMute;
@@ -304,6 +308,15 @@ public class GameStoryController : MonoBehaviour
         }
     }
 
+    public void TaskGetOpen()
+    {
+        panelTask.SetActive(true);
+    }
+
+    public void TaskGetClose()
+    {
+        panelTask.SetActive(false);
+    }
 
     IEnumerator SavedDelay(int value)
     {
