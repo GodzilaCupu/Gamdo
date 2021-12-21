@@ -33,15 +33,26 @@ public class PlayerController : MonoBehaviour
     {
         box = GameObject.Find("kardus").GetComponent<KardusController>();
         gameController = GameObject.Find("GameController").GetComponent<GameStoryController>();
-        isCarried = box._IsCarried;
         playerAnim.GetComponent<Animator>();
     }
 
     private void Update()
     {
+        CheckCarried();
         Jumping();
         Moving();
         CheckAnim();
+    }
+
+    private void CheckCarried()
+    {
+        GameObject GrabPos = GameObject.Find("GrabPos");
+
+        if (GrabPos.transform.childCount > 0)
+        {
+            box = GrabPos.transform.GetChild(0).GetComponent<KardusController>();
+            isCarried = box._IsCarried;
+        }
     }
 
     private void Moving()
@@ -154,9 +165,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
     #region Get-Set Method
     public bool _IsRunning { get { return isRunning; } }
     public bool _IsGrounded { get { return isGrounded; } }
+
+    public bool _isCarrying { get { return isCarried; } }
+
     public Animator PlayerAnim { get { return playerAnim; } set { playerAnim = value; } }
     #endregion
 }

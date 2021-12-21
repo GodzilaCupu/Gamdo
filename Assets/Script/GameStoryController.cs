@@ -29,10 +29,12 @@ public class GameStoryController : MonoBehaviour
     [SerializeField] private GameObject[] btnSetting;
     [SerializeField] private GameObject panelSetting;
     [SerializeField] private GameObject panelSaved;
-    [SerializeField] private AudioSource sound;
+    [SerializeField] private AudioSource bgmSound;
+    [SerializeField] private AudioSource[] sfx_Sounds; 
 
-    [Header("Task")]
+    [Header("General")]
     [SerializeField] private GameObject panelTask;
+    //[SerializeField] private Button btnPause;
 
     private string[] _txtSetting;
     public bool isOpened,isMute;
@@ -43,6 +45,8 @@ public class GameStoryController : MonoBehaviour
     void Start()
     {
         progresBox = DataBase.GetCurrentProgres("Box");
+        //btnPause = GameObject.Find("BTN_Pause").GetComponent<Button>();
+        //btnPause.onClick.AddListener(SetPauseBTN);
 
         SetCongratsBTN();
         SetSetting();
@@ -69,16 +73,17 @@ public class GameStoryController : MonoBehaviour
             Timmer(countDown);
         }
 
-        if (Input.GetKey(KeyCode.Escape))
-        {
-            panelSetting.SetActive(true);
-            Time.timeScale = 0;
-            isOpened = true;
-        }
     }
 
     //Udah Bener Semua
     #region Setting 
+
+    private void SetPauseBTN()
+    {
+        panelSetting.SetActive(true);
+        Time.timeScale = 0;
+        isOpened = true;
+    }
 
     private void SetSetting()
     {
@@ -122,16 +127,17 @@ public class GameStoryController : MonoBehaviour
 
     private void SetSoundValue()
     {
+        bgmSound = this.GetComponent<AudioSource>();
         if (DataBase.GetAudio("BGM") == 0)
         {
             btnSetting[1].GetComponent<Toggle>().isOn = false;
-            sound.mute = false;
+            bgmSound.mute = false;
             isMute = false;
         }
         else if (DataBase.GetAudio("BGM") == 1)
         {
             btnSetting[1].GetComponent<Toggle>().isOn = true;
-            sound.mute = true;
+            bgmSound.mute = true;
             isMute = true;
         }
     }
@@ -142,13 +148,13 @@ public class GameStoryController : MonoBehaviour
         {
             btnSetting[1].GetComponent<Toggle>().isOn = false;
             DataBase.SetAudio("BGM", 0);
-            sound.mute = false;
+            bgmSound.mute = false;
             isMute = false;
         }else if (value == true)
         {
             btnSetting[1].GetComponent<Toggle>().isOn = true;
             DataBase.SetAudio("BGM", 1);
-            sound.mute = true;
+            bgmSound.mute = true;
             isMute = true;
         }
     }
@@ -166,14 +172,17 @@ public class GameStoryController : MonoBehaviour
         {
             case "Level01":
                 DataBase.SetCurrentProgres("Level", 1);
+                sfx_Sounds[0].Play();
                 break;
 
             case "Level02":
                 DataBase.SetCurrentProgres("Level", 2);
+                sfx_Sounds[0].Play();
                 break;
 
             case "Level03":
                 DataBase.SetCurrentProgres("Level", 3);
+                sfx_Sounds[0].Play();
                 break;
         }
         DataBase.SetAudio("BGM", DataBase.GetAudio("BGM"));
@@ -216,7 +225,6 @@ public class GameStoryController : MonoBehaviour
         }
     }
 
-
     private void CheckProggres()
     {
         //StartCoroutine(PlayCountdown(0));
@@ -227,32 +235,43 @@ public class GameStoryController : MonoBehaviour
 
     public void Timmer(float dispaly)
     {
-        if (countDown < 0)
+        if (countDown <= 0.8)
         {
-            countDown = 0;
+            countDown = 0.5f;
             if (progresBox == maxBox || progresBox >8)
             {
                 DataBase.SetCurrentProgres("LevelStars1", 3);
                 panelCongrats.SetActive(true);
+                Time.timeScale = 0f;
                 imgStar.sprite = _imgStars[0];
                 isOpened = true;
                 Debug.Log("3");
             }
-            else if (progresBox <=8 || progresBox >= 5 )
+            else if (progresBox <=8 && progresBox >= 5 )
             {
                 DataBase.SetCurrentProgres("LevelStars1", 2);
                 panelCongrats.SetActive(true);
+                Time.timeScale = 0f;
                 imgStar.sprite = _imgStars[1];
                 isOpened = true;
                 Debug.Log("2");
             }
-            else if (progresBox < 5)
+            else if (progresBox < 5 && progresBox > 2)
             {
                 DataBase.SetCurrentProgres("LevelStars1", 1);
                 panelCongrats.SetActive(true);
+                Time.timeScale = 0f;
                 imgStar.sprite = _imgStars[2];
                 isOpened = true;
                 Debug.Log("1");
+            }else if(progresBox == 0)
+            {
+                DataBase.SetCurrentProgres("LevelStars1", 0);
+                panelCongrats.SetActive(true);
+                Time.timeScale = 0f;
+                imgStar.sprite = _imgStars[3];
+                isOpened = true;
+                Debug.Log("0");
             }
         }
 
@@ -273,7 +292,6 @@ public class GameStoryController : MonoBehaviour
             Debug.Log("3");
         }
     }
-
 
     private void ResetProgres()
     {
@@ -325,6 +343,7 @@ public class GameStoryController : MonoBehaviour
         panelSaved.SetActive(false);
         Debug.LogWarning("SAVED");
     }
+
     IEnumerator CountdownDelay(int value)
     {
         isOpened = true;
