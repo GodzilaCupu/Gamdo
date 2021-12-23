@@ -187,7 +187,7 @@ public class KardusController : MonoBehaviour
                     player.PlayerAnim.SetTrigger("JumpThrow");
             }
         }
-            
+
     }
 
     private void OnCollisionEnter(Collision coll)

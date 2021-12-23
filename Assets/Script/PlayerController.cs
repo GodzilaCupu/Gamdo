@@ -53,6 +53,9 @@ public class PlayerController : MonoBehaviour
             box = GrabPos.transform.GetChild(0).GetComponent<KardusController>();
             isCarried = box._IsCarried;
         }
+        else if (GrabPos.transform.childCount == 0)
+            isCarried = box._IsCarried;
+
     }
 
     private void Moving()
@@ -95,7 +98,6 @@ public class PlayerController : MonoBehaviour
 
     private void CheckAnim()
     {
-
         if (isRunning)
         {
             playerAnim.SetBool("Run", true);

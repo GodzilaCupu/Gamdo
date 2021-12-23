@@ -25,8 +25,7 @@ public class NPC_Controller : MonoBehaviour
 
         playerObj =  GameObject.Find("Player");
 
-        int d = Random.Range(0, wayPoints.Length);
-        agent.SetDestination(wayPoints[d].transform.position);
+        agent.SetDestination(wayPoints[Random.Range(0,wayPoints.Length)].transform.position);
         npcAnimator.SetBool("Walk", true);
 
     }
@@ -52,7 +51,6 @@ public class NPC_Controller : MonoBehaviour
     private void CheckNgejar()
     {
         int d = Random.Range(0, wayPoints.Length);
-
 
         float distancePlayer = Vector3.Distance(this.gameObject.transform.position, playerObj.transform.position);
 

@@ -44,7 +44,7 @@ public class JoystickManager : MonoBehaviour, IDragHandler, IPointerDownHandler,
         isCarried = box._IsCarried;
 
         SetCenterJoystick();
-        SetJoystick();
+        //SetJoystick();
     }
 
     // Update is called once per frame
@@ -72,14 +72,14 @@ public class JoystickManager : MonoBehaviour, IDragHandler, IPointerDownHandler,
         InputDir = Vector2.zero;
     }
 
-    private void SetJoystick()
+   private void SetJoystick()
     {
         for (int i = 0;i < btnJoystick.Length; i++)
         {
             switch (i)
             {
                 case 0:
-                    btnJoystick[0].onClick.AddListener(Jumping);
+                    btnJoystick[0].onClick.AddListener(JumpingJoystick);
                     break;
 
                 case 1:
@@ -101,7 +101,7 @@ public class JoystickManager : MonoBehaviour, IDragHandler, IPointerDownHandler,
         }
     }
 
-    public void Jumping()
+    public void JumpingJoystick()
     {
 
         if (isGrounded && velocityJump.y < 0)

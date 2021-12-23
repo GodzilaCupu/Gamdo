@@ -118,10 +118,16 @@ public class GameStoryController : MonoBehaviour
                 case 3:
                     btnSetting[3].GetComponent<Button>().onClick.AddListener(BackToMainMenu);
                     break;
+
+                //Pause Button
+                case 4:
+                    btnSetting[4].GetComponent<Button>().onClick.AddListener(SetPauseBTN);
+                    break;
             }
         }
+        
+        panelSetting.SetActive(false);
 
-            panelSetting.SetActive(false);
 
     }
 
@@ -195,6 +201,8 @@ public class GameStoryController : MonoBehaviour
     }
 
     #endregion
+
+    #region GamePlay Progress
 
     private void SetCongratsBTN()
     {
@@ -326,6 +334,7 @@ public class GameStoryController : MonoBehaviour
         }
     }
 
+    #endregion
     public void TaskGetOpen()
     {
         panelTask.SetActive(true);
