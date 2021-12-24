@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityStandardAssets.CrossPlatformInput;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -25,15 +26,12 @@ public class KardusController : MonoBehaviour
         isCarried = false;
     }
 
-    private void Update()
-    {
-        Grabing();
-        Throwing();
-    }
-
     private void FixedUpdate()
     {
         CheckBool();
+        GrabJoystick();
+        ThrowJoystick();
+        DropJoystick();
     }
 
     private void CheckBool()
@@ -42,76 +40,81 @@ public class KardusController : MonoBehaviour
         isGrounded = player._IsGrounded;
     }
 
-    private void Grabing()
-    {
-        if(gameController.isOpened == false)
-        {
-            distance = Vector3.Distance(this.gameObject.transform.position, grabPos.transform.position);
+    #region Keyboard Input
+    // di panggil di update
+    //private void Grabing()
+    //{
+    //    if(gameController.isOpened == false)
+    //    {
+    //        distance = Vector3.Distance(this.gameObject.transform.position, grabPos.transform.position);
 
-            if (distance <= 0.9f)
-                isAbleToGrab = true;
-            else
-                isAbleToGrab = false;
+    //        if (distance <= 0.9f)
+    //            isAbleToGrab = true;
+    //        else
+    //            isAbleToGrab = false;
 
-            if(grabPos.transform.childCount == 0)
-            {
-                if (isGrounded && !isRunning)
-                {
-                    if (isAbleToGrab && Input.GetKeyDown(KeyCode.G))
-                    {
-                        this.GetComponent<Rigidbody>().isKinematic = true;
-                        this.transform.position = grabPos.transform.position;
-                        this.transform.parent = grabPos.transform;
-                        isCarried = true;
-                        player.PlayerAnim.SetBool("Box", true);
-                        player.PlayerAnim.ResetTrigger("JumpThrow");
-                        player.PlayerAnim.ResetTrigger("RunThrow");
-                    }
-                }
-            }
-        }
-    }
+    //        if(grabPos.transform.childCount == 0)
+    //        {
+    //            if (isGrounded && !isRunning)
+    //            {
+    //                if (isAbleToGrab && Input.GetKeyDown(KeyCode.G))
+    //                {
+    //                    this.GetComponent<Rigidbody>().isKinematic = true;
+    //                    this.transform.position = grabPos.transform.position;
+    //                    this.transform.parent = grabPos.transform;
+    //                    isCarried = true;
+    //                    player.PlayerAnim.SetBool("Box", true);
+    //                    player.PlayerAnim.ResetTrigger("JumpThrow");
+    //                    player.PlayerAnim.ResetTrigger("RunThrow");
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 
-    private void Throwing()
-    {
-        if (gameController.isOpened == false)
-        {
-            if (isCarried && Input.GetKey(KeyCode.LeftShift))
-            {
-                this.GetComponent<Rigidbody>().isKinematic = false;
-                this.transform.parent = null;
-                isCarried = false;
-                this.GetComponent<Rigidbody>().AddForce(grabPos.transform.forward * throwForce);
-                player.PlayerAnim.SetBool("Box", false);
-                player.PlayerAnim.SetBool("Idle", true);
+    //private void Throwing()
+    //{
+    //    if (gameController.isOpened == false)
+    //    {
+    //        if (isCarried && Input.GetKey(KeyCode.LeftShift))
+    //        {
+    //            this.GetComponent<Rigidbody>().isKinematic = false;
+    //            this.transform.parent = null;
+    //            isCarried = false;
+    //            this.GetComponent<Rigidbody>().AddForce(grabPos.transform.forward * throwForce);
+    //            player.PlayerAnim.SetBool("Box", false);
+    //            player.PlayerAnim.SetBool("Idle", true);
 
-                if (isRunning)
-                    player.PlayerAnim.SetTrigger("RunThrow");
-                else if (!isGrounded)
-                    player.PlayerAnim.SetTrigger("JumpThrow");
+    //            if (isRunning)
+    //                player.PlayerAnim.SetTrigger("RunThrow");
+    //            else if (!isGrounded)
+    //                player.PlayerAnim.SetTrigger("JumpThrow");
 
-                if (!isGrounded && isRunning)
-                    player.PlayerAnim.SetTrigger("JumpThrow");
-            }
-            else if (isCarried && Input.GetKey(KeyCode.LeftControl))
-            {
-                this.GetComponent<Rigidbody>().isKinematic = false;
-                this.transform.parent = null;
-                isCarried = false;
-                player.PlayerAnim.SetBool("Box", false);
-                player.PlayerAnim.SetBool("Idle", true);
+    //            if (!isGrounded && isRunning)
+    //                player.PlayerAnim.SetTrigger("JumpThrow");
+    //        }
+    //        else if (isCarried && Input.GetKey(KeyCode.LeftControl))
+    //        {
+    //            this.GetComponent<Rigidbody>().isKinematic = false;
+    //            this.transform.parent = null;
+    //            isCarried = false;
+    //            player.PlayerAnim.SetBool("Box", false);
+    //            player.PlayerAnim.SetBool("Idle", true);
 
-                if (isRunning)
-                    player.PlayerAnim.SetTrigger("RunThrow");
-                else if (!isGrounded)
-                    player.PlayerAnim.SetTrigger("JumpThrow");
+    //            if (isRunning)
+    //                player.PlayerAnim.SetTrigger("RunThrow");
+    //            else if (!isGrounded)
+    //                player.PlayerAnim.SetTrigger("JumpThrow");
 
-                if (!isGrounded && isRunning)
-                    player.PlayerAnim.SetTrigger("JumpThrow");
-            }
-        }       
-    }
+    //            if (!isGrounded && isRunning)
+    //                player.PlayerAnim.SetTrigger("JumpThrow");
+    //        }
+    //    }       
+    //}
 
+    #endregion
+
+    #region Virtual Button
     public void GrabJoystick()
     {
         if (gameController.isOpened == false)
@@ -127,7 +130,7 @@ public class KardusController : MonoBehaviour
             {
                 if (isGrounded && !isRunning)
                 {
-                    if (isAbleToGrab)
+                    if (isAbleToGrab && CrossPlatformInputManager.GetButtonDown("PickUp"))
                     {
                         this.GetComponent<Rigidbody>().isKinematic = true;
                         this.transform.position = grabPos.transform.position;
@@ -146,7 +149,7 @@ public class KardusController : MonoBehaviour
     {
         if (gameController.isOpened == false)
         {
-            if (isCarried)
+            if (isCarried && CrossPlatformInputManager.GetButtonDown("Throw"))
             {
                 this.GetComponent<Rigidbody>().isKinematic = false;
                 this.transform.parent = null;
@@ -170,7 +173,7 @@ public class KardusController : MonoBehaviour
     {
         if (gameController.isOpened == false)
         {
-            if (isCarried)
+            if (isCarried && CrossPlatformInputManager.GetButtonDown("Drop"))
             {
                 this.GetComponent<Rigidbody>().isKinematic = false;
                 this.transform.parent = null;
@@ -189,6 +192,8 @@ public class KardusController : MonoBehaviour
         }
 
     }
+
+    #endregion
 
     private void OnCollisionEnter(Collision coll)
     {

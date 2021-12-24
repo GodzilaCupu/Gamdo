@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityStandardAssets.CrossPlatformInput;
 
 
 public class JoystickManager : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
@@ -17,7 +18,9 @@ public class JoystickManager : MonoBehaviour, IDragHandler, IPointerDownHandler,
     private Vector2 InputDir;
 
     [Header("Player Walking")]
-    [SerializeField] private CharacterController player;
+    [SerializeField] private CharacterController contoller;
+    [SerializeField] private PlayerController playerController;
+    [SerializeField] private GameObject playerObj;
     [SerializeField] private GameObject objGerak, objPutar;
     [SerializeField] private float maxWalkSpeed, zAxisPlayer,rotateY;
     [SerializeField] private bool isRunning;
@@ -40,17 +43,21 @@ public class JoystickManager : MonoBehaviour, IDragHandler, IPointerDownHandler,
     // Start is called before the first frame update
     void Start()
     {
+        playerObj = GameObject.Find("Player");
+        playerController = playerObj.GetComponent<PlayerController>();
+        contoller = playerObj.GetComponent<CharacterController>();
         box = GameObject.FindGameObjectWithTag("Box").GetComponent<KardusController>();
+        
         isCarried = box._IsCarried;
 
         SetCenterJoystick();
-        //SetJoystick();
     }
 
     // Update is called once per frame
     void Update()
     {
         CheckCarried();
+        JumpingJoystick();
     }
 
     private void CheckCarried()
@@ -103,17 +110,19 @@ public class JoystickManager : MonoBehaviour, IDragHandler, IPointerDownHandler,
 
     public void JumpingJoystick()
     {
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDinstance, groundMask);
 
         if (isGrounded && velocityJump.y < 0)
             velocityJump.y = -2f;
 
-        if ( isGrounded)
+        if (CrossPlatformInputManager.GetButtonDown("Jump") && isGrounded)
         {
             velocityJump.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
 
         velocityJump.y += gravity * Time.deltaTime;
-        player.Move(velocityJump * Time.deltaTime);
+        contoller.Move(velocityJump * Time.deltaTime);
+        playerController._IsGrounded = isGrounded;
     }
 
     #region Joystick Movement
@@ -137,11 +146,8 @@ public class JoystickManager : MonoBehaviour, IDragHandler, IPointerDownHandler,
             // Menentukan Aarah Putar Player
             zAxisPlayer = Mathf.Atan2(-InputDir.y, InputDir.x) * Mathf.Rad2Deg;
             objPutar.transform.eulerAngles = new Vector3(0, zAxisPlayer+rotateY, 0);
-
-           
+            playerController._IsRunning = true;
         }
-
-        
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -152,7 +158,9 @@ public class JoystickManager : MonoBehaviour, IDragHandler, IPointerDownHandler,
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        
         InputDir = Vector2.zero;
+        playerController._IsRunning = false;
         iMovementJoystick.rectTransform.anchoredPosition = Vector2.zero;
     }
 

@@ -39,8 +39,6 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         CheckCarried();
-        Jumping();
-        Moving();
         CheckAnim();
     }
 
@@ -58,43 +56,46 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void Moving()
-    {
-        isRunning = false;
-        if (gameController.isOpened == false)
-        {
-            float horizontal = Input.GetAxisRaw("Horizontal");
-            float vertical = Input.GetAxisRaw("Vertical");
+    #region Keyboard Input
+    // di panggil dalam update
+    //private void Moving()
+    //{
+    //    isRunning = false;
+    //    if (gameController.isOpened == false)
+    //    {
+    //        float horizontal = Input.GetAxisRaw("Horizontal");
+    //        float vertical = Input.GetAxisRaw("Vertical");
 
-            Vector3 direction = new Vector3(-vertical, 0f, horizontal).normalized;
+    //        Vector3 direction = new Vector3(-vertical, 0f, horizontal).normalized;
 
-            if (direction.magnitude >= 0.1f)
-            {
-                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref smothingVelocityTurn, smothingTurn);
-                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+    //        if (direction.magnitude >= 0.1f)
+    //        {
+    //            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+    //            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref smothingVelocityTurn, smothingTurn);
+    //            transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-                controller.Move(direction * walkSpeed * Time.deltaTime);
-                isRunning = true;
-            }
-        }
-    }
+    //            controller.Move(direction * walkSpeed * Time.deltaTime);
+    //            isRunning = true;
+    //        }
+    //    }
+    //}
 
-    private void Jumping()
-    {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDinstance, groundMask);
+    //private void Jumping()
+    //{
+    //    isGrounded = Physics.CheckSphere(groundCheck.position, groundDinstance, groundMask);
 
-        if (isGrounded && velocityJump.y < 0)
-            velocityJump.y = -2f;
+    //    if (isGrounded && velocityJump.y < 0)
+    //        velocityJump.y = -2f;
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            velocityJump.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
+    //    if (Input.GetButtonDown("Jump") && isGrounded)
+    //    {
+    //        velocityJump.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+    //    }
 
-        velocityJump.y += gravity * Time.deltaTime;
-        controller.Move(velocityJump * Time.deltaTime);
-    }
+    //    velocityJump.y += gravity * Time.deltaTime;
+    //    controller.Move(velocityJump * Time.deltaTime);
+    //}
+    #endregion
 
     private void CheckAnim()
     {
@@ -169,8 +170,8 @@ public class PlayerController : MonoBehaviour
 
 
     #region Get-Set Method
-    public bool _IsRunning { get { return isRunning; } }
-    public bool _IsGrounded { get { return isGrounded; } }
+    public bool _IsRunning { get { return isRunning; } set { isRunning = value; } }
+    public bool _IsGrounded { get { return isGrounded; } set { isGrounded = value; } }
 
     public bool _isCarrying { get { return isCarried; } }
 
