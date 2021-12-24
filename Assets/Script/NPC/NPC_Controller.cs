@@ -59,24 +59,15 @@ public class NPC_Controller : MonoBehaviour
         if (distancePlayer < 4f && isCarryingPackage == true)
         {
             npcAnimator.SetBool("Walk", true);
-            if (_lastWayPoint < 8)
+            agent.SetDestination(playerObj.transform.position);
+            Debug.LogWarning("Cek 1");
+            if (agent.remainingDistance < 0.8f)
             {
-                agent.SetDestination(playerObj.transform.position);
-                Debug.LogWarning("Cek 1");
-                if (agent.remainingDistance < 0.6f)
-                {
-
-                    agent.SetDestination(wayPoints[d].transform.position);
-                    Debug.LogWarning("Cek 2");
-                }
-            }
-            else
-            {
-                Debug.LogWarning("Cek 3");
+                boxControl.Drop();
+                isCarryingPackage = false;
                 agent.SetDestination(wayPoints[d].transform.position);
-
+                Debug.LogWarning("Cek 2");
             }
-
         }
         else
         {

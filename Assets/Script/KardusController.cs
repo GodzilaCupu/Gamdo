@@ -193,6 +193,29 @@ public class KardusController : MonoBehaviour
 
     }
 
+    public void Drop()
+    {
+        if (gameController.isOpened == false)
+        {
+            if (isCarried)
+            {
+                this.GetComponent<Rigidbody>().isKinematic = false;
+                this.transform.parent = null;
+                isCarried = false;
+                player.PlayerAnim.SetBool("Box", false);
+                player.PlayerAnim.SetBool("Idle", true);
+
+                if (isRunning)
+                    player.PlayerAnim.SetTrigger("RunThrow");
+                else if (!isGrounded)
+                    player.PlayerAnim.SetTrigger("JumpThrow");
+
+                if (!isGrounded && isRunning)
+                    player.PlayerAnim.SetTrigger("JumpThrow");
+            }
+        }  
+    }
+
     #endregion
 
     private void OnCollisionEnter(Collision coll)
