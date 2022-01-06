@@ -9,7 +9,7 @@ public class KardusController : MonoBehaviour
     private PlayerController player;
     private GameObject grabPos;
 
-    AudioSource boxSFX;
+    [SerializeField] private AudioSource boxSFX;
     GameStoryController gameController;
   
     [SerializeField] private float distance, throwForce;
@@ -157,6 +157,7 @@ public class KardusController : MonoBehaviour
                 this.GetComponent<Rigidbody>().AddForce(grabPos.transform.forward * throwForce);
                 player.PlayerAnim.SetBool("Box", false);
                 player.PlayerAnim.SetBool("Idle", true);
+
 
                 if (isRunning)
                     player.PlayerAnim.SetTrigger("RunThrow");
